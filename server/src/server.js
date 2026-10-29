@@ -31,9 +31,10 @@ app.use(express.json({ limit: "1mb" }));
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 100,
+    limit: 2000,
   })
 );
+
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
@@ -49,11 +50,32 @@ app.use("/api/budgets", budgetRoutes);
 app.use("/api/statements", statementRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/goals", savingsGoalRoutes);
-app.use("/api/investments", require("./routes/investmentRoutes"));
+app.use("/api/loans",        require("./routes/loanRoutes"));
+app.use("/api/accounts",     require("./routes/accountRoutes"));
+app.use("/api/investments",  require("./routes/investmentRoutes"));
+app.use("/api/kyc",          require("./routes/kycRoutes"));
+app.use("/api/ai",           require("./routes/aiRoutes"));
+app.use("/api/admin",        require("./routes/adminRoutes"));
+app.use("/api/insurance",    require("./routes/insuranceRoutes"));
+app.use("/api/tax",          require("./routes/taxRoutes"));
+app.use("/api/split",        require("./routes/splitRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
+app.use("/api/reports",      require("./routes/reportRoutes"));
+app.use("/api/gold",         require("./routes/goldRoutes"));
+app.use("/api/credit",       require("./routes/creditRoutes"));
+app.use("/api/jar",          require("./routes/jarRoutes"));
+app.use("/api/rewards",      require("./routes/rewardRoutes"));
+app.use("/api/subscriptions", require("./routes/subscriptionRoutes"));
+app.use("/api/credit-cards",  require("./routes/creditCardRoutes"));
+app.use("/api/rooms",         require("./routes/paisaRoomRoutes"));
+app.use("/api/vehicles",      require("./routes/vehicleRoutes"));
+app.use("/api/ipos",          require("./routes/ipoRoutes"));
 app.use(
   "/api/recurring-transactions",
   recurringTransactionRoutes
 );
+
+
 
 
 

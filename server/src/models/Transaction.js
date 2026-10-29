@@ -43,6 +43,11 @@ const transactionSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
+    account: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Account",
+      default: null,
+    },
   },
   { timestamps: true }
 );

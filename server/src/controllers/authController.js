@@ -185,3 +185,38 @@ exports.me = async (req, res, next) => {
     next(error);
   }
 };
+
+const { seedGuestData } = require("../services/guestSeedService");
+
+exports.guest = async (req, res, next) => {
+  try {
+    const uniqueId = Math.random().toString(36).substring(2, 8);
+    const guestEmail = `guest_${Date.now()}_${uniqueId}@paisapilot.local`;
+    const passwordHash = await bcrypt.hash(`guest_secret_${uniqueId}`, 10);
+
+    const user = await User.create({
+      name: "Guest Explorer",
+      email: guestEmail,
+      passwordHash,
+      role: "guest",
+      currency: "INR",
+    });
+
+    try {
+      await seedGuestData(user._id);
+    } catch (seedErr) {
+      console.warn("Guest data seeding error (non-fatal):", seedErr.message);
+    }
+
+    const token = createToken(user);
+
+    return res.status(201).json({
+      success: true,
+      message: "Guest session initialized",
+      token,
+      user: publicUser(user),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

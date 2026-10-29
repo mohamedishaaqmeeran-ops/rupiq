@@ -14,11 +14,9 @@ const {
   createRepayment,
   getRepayments,
 } = require("../controllers/loanRepaymentController");
-// Replace this import with the authentication middleware
-// already used by your existing transaction routes.
-const protect = require("../middleware/authMiddleware");
+const { authenticate } = require("../middleware/auth");
 
-router.use(protect);
+router.use(authenticate);
 router
   .route("/:id/repayments")
   .get(getRepayments)
